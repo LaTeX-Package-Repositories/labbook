@@ -2,10 +2,22 @@
 
 yes| tex labbook.ins
 
+
 pdflatex labbook.dtx
 pdflatex labbook.dtx
 makeindex -s gind.ist labbook
 makeindex -s gglo.ist -o labbook.gls labbook.glo
+
+
+pdflatex labboode
+pdflatex labboode
+makeindex -s gind.ist labboode
+makeindex -s gglo.ist -o labboode.gls labboode.glo
+
+
+pdflatex test2018
+
+
 cd ..
 rm -f labbook.zip
 zip -r labbook.zip labbook/labbook.{el,ins,dtx,pdf} labbook/labboode.pdf labbook/README
