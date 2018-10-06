@@ -1,4 +1,4 @@
-% \CheckSum{910}
+% \CheckSum{914}
 % \iffalse meta-comment
 % ======================================================================
 % labbook.dtx 
@@ -9,7 +9,7 @@
 % http://www.ctan.org/tex-archive/macros/latex/base/lppl.txt
 % ----------------------------------------------------------------------
 % labbook.dtx
-% Copyright (C) 2003 
+% Copyright (C) 2003 - 2018
 %
 %
 % Diese Datei kann nach den Regeln der LaTeX Project Public
@@ -45,7 +45,7 @@
 %<boilerplates>\ProvidesFile{boilerplates.tex}%
 %<labboode>\ProvidesFile{labboode.tex}%
 %<labbook>\ProvidesClass{labbook}
-            [2003/05/20 v1.1 LaTeX2e labbook document class]
+            [2018/10/06 v1.2 LaTeX2e labbook document class]
 %<*driver>
 \documentclass{article}
 \usepackage{doc}
@@ -97,7 +97,7 @@
 % \setcounter{IndexColumns}{2}
 % 
 % \MakeShortVerb{\|}
-% \MakeShortVerb{\§}
+% \MakeShortVerb{\_}
 %
 % \title{labbook.cls, a \LaTeX\ class to typeset laboratory journals}
 % \author{Frank K\"uster}
@@ -374,6 +374,7 @@
 \RequirePackage{makeidx} \makeindex
 %    \end{macrocode}
 %
+%
 % \section{Experiment abbreviations}
 % \label{sec:experiment-abbr}
 %
@@ -480,6 +481,13 @@
 %
 % \subsubsection{Parsing a comma separated list}
 % \label{sec:pars-comma-separ}
+%
+% Safe delimiter replacing \textsection\ used in earlier versions
+% see \verb|https://tex.stackexchange.com/questions/429955|
+%    \begin{macrocode}
+\chardef\FK@@us@catcode=\catcode`_
+\catcode`_=3 % funny catcode
+%    \end{macrocode}
 %
 % The new sectioning commands can be used with a comma separated list of
 % items in the optional argument (see below, \ref{sec:optarg-exp}), and
@@ -590,7 +598,7 @@
   \def\fk@atdashsep@aftereachelement{#6}%
   \fk@@getatdashsep@list
 }
-\def\fk@@getatdashsep@list#1§{%
+\def\fk@@getatdashsep@list#1_{%
   \stepcounter{fk@atdashsep@argnumber}%
   \fk@atdashsep@beforebranch%
   \ifx\relax#1%
@@ -738,9 +746,9 @@
 \def\fk@buildindexlist#1{%
   \def\@tmpA{exp}
   \ifx\fk@explevel\@tmpA
-    \protected@edef\fk@exp@indexlist{#1§\fk@exp@indexlist}
+    \protected@edef\fk@exp@indexlist{#1_\fk@exp@indexlist}
   \else
-    \protected@edef\fk@subexp@indexlist{#1§\fk@subexp@indexlist}
+    \protected@edef\fk@subexp@indexlist{#1_\fk@subexp@indexlist}
   \fi
 }
 %    \end{macrocode}
@@ -795,7 +803,7 @@
                             % of experiments
       \protected@edef\fk@current@expname{#1}
       \def\fk@parselevel{subexp}
-      \expandafter\fk@useindexlist\fk@subexp@indexlist\relax§%
+      \expandafter\fk@useindexlist\fk@subexp@indexlist\relax_%
       \def\fk@parselevel{exp}
     \else
 %    \end{macrocode}
@@ -814,8 +822,8 @@
 % The previous procedure made use of |\fk@writeindex| which is never
 % defined itself. It is |\let| to |\fk@openindex| or |\fk@closeindex|,
 % depending on where it is called. The first writes index entries which
-% open a range, i.e. §\index{text|(}§, the second closes the ranges
-% again (§\index{text|)}§).
+% open a range, i.e. _\index{text|(}_, the second closes the ranges
+% again (_\index{text|)}_).
 %
 %    \begin{macrocode}
 \def\fk@openindex#1{\index{#1|(}}%)
@@ -915,7 +923,7 @@
 %
 %    \begin{macrocode}
 \def\fk@@close@labindex{%
-  \expandafter\fk@useindexlist\fk@exp@indexlist\relax§%
+  \expandafter\fk@useindexlist\fk@exp@indexlist\relax_%
   \expandafter\def\csname fk@\fk@explevel @indexlist\endcsname{}%
 }
 %    \end{macrocode}
@@ -1494,7 +1502,7 @@
 %
 %    \begin{macrocode}
           \let\fk@writeindex\fk@openindex%
-          \expandafter\fk@useindexlist\fk@exp@indexlist\relax§%
+          \expandafter\fk@useindexlist\fk@exp@indexlist\relax_%
         \fi%
       }%
     \fi%
@@ -2161,6 +2169,7 @@ Die Implementierung ist auf Englisch dokumentiert und kann durch
 \end{document}
 %</labboode>
 %<*labbook>
+\catcode`_=\FK@@us@catcode
 \endinput
 %</labbook>
 %\fi
