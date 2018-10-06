@@ -1,0 +1,11 @@
+#!/bin/sh
+
+yes| tex labbook.ins
+
+pdflatex labbook.dtx
+pdflatex labbook.dtx
+makeindex -s gind.ist labbook
+makeindex -s gglo.ist -o labbook.gls labbook.glo
+cd ..
+rm -f labbook.zip
+zip -r labbook.zip labbook/labbook.{el,ins,dtx,pdf} labbook/labboode.pdf labbook/README
