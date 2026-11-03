@@ -17,13 +17,13 @@ To produce the class and example files
 
 To produce the documentation 
 
-  (pdf)latex labbook.dtx
+    (pdf)latex labbook.dtx
 
-	To produce an index for the documentation:
+To produce an index for the documentation:
 
     makeindex -s gind.ist labbook
 
-  To produce a change history for the documentation:
+To produce a change history for the documentation:
   
     makeindex -s gglo.ist -o labbook.gls labbook.glo
 
